@@ -35,24 +35,28 @@ public class Chessboard {
     }
 
     // From there, track down game info (castling rights, en passant, halfMoveClock, etc.)
-    int numSpaces = 0;
     int startIndex = divider + 1;
-    int endIndex = startIndex;
     for (int i = 0; i < 5; i++) {
+      int endIndex = startIndex;
       String info = "";
       while (endIndex < fenChars.length && fenChars[endIndex] != ' ') {
-        info.concat(Character.toString(fenChars[endIndex]));
+        info = info.concat(Character.toString(fenChars[endIndex]));
         endIndex++;
       }
+      // System.out.println(i + ": " + info);
       switch (i) {
         // Find active color
         case 0:
-          PieceColor color = (info.charAt(startIndex) == 'w') ? PieceColor.WHITE : PieceColor.BLACK;
+          PieceColor color = (info.charAt(0) == 'w') ? PieceColor.WHITE : PieceColor.BLACK;
           this.setActiveColor(color);
           break;
         // Find castling rights
         case 1:
-          String castlingRights = info.substring(startIndex, endIndex);
+          // Assume the rook has moved until proven otherwise
+          setBrq(false);
+          setBrk(false);
+          setWrq(false);
+          setWrk(false);
           for (int j = 0; j < info.length(); j++) {
             char c = info.charAt(j);
             if (c == 'q') setBrq(true);
@@ -63,26 +67,27 @@ public class Chessboard {
           break;
         // Find en passant square
         case 2:
-          String enPassantString = info.substring(startIndex, endIndex);
-          if (enPassantString.charAt(0) == '-') break;
-          if (enPassantString.length() < 2) throw new RuntimeException("En Passant square is incorrect");
-          setEnPassantFile(enPassantString.charAt(0) - 'a');
-          setEnPassantRank(Math.abs(7 - Character.getNumericValue(enPassantString.charAt(1))));
+          if (info.charAt(0) == '-') {
+            setEnPassantFile(-1);
+            setEnPassantRank(-1);
+            break;
+          }
+          if (info.length() < 2) throw new RuntimeException("En Passant square is incorrect");
+          setEnPassantFile(info.charAt(0) - 'a');
+          setEnPassantRank(Math.abs(8 - Character.getNumericValue(info.charAt(1))));
           break;
         // Set half clock
         case 3:
-          String halfMoves = info.substring(startIndex, endIndex);
-          setHalfMoveClock(Integer.parseInt(halfMoves));
+          setHalfMoveClock(Integer.parseInt(info));
           break;
         // Set full clock
         case 4:
-          String fullMoves = info.substring(startIndex, endIndex);
-          setFullMoveCount(Integer.parseInt(fullMoves));
+          setFullMoveCount(Integer.parseInt(info));
           break;
         default:
           break;
       }
-      startIndex = endIndex;
+      startIndex = endIndex + 1;
     }
 
     // Piece Placement
@@ -103,7 +108,7 @@ public class Chessboard {
           case 'p':
             boolean hasMoved = false;
             if (pieceColor == PieceColor.WHITE && rank != 6) hasMoved = true;
-            if (pieceColor == PieceColor.BLACK && rank != 2) hasMoved = true;
+            if (pieceColor == PieceColor.BLACK && rank != 1) hasMoved = true;
             boolean enPassant = (rank == enPassantRank && file == enPassantFile);
             boardClone[rank][file] = new Pawn(new Position(rank, file), PieceType.PAWN, pieceColor, hasMoved, enPassant);
             break;
@@ -116,18 +121,18 @@ public class Chessboard {
             boardClone[rank][file] = new Rook(new Position(rank, file), PieceType.ROOK, pieceColor, hasRookMoved);
             break;
           case 'k':
-            boolean hasKingMoved = (pieceColor == PieceColor.WHITE && (wrq || wrk)) ||
-                                   (pieceColor == PieceColor.BLACK && (brq || brk));
+            boolean hasKingMoved = (pieceColor == PieceColor.WHITE && !(wrq || wrk)) ||
+                                   (pieceColor == PieceColor.BLACK && !(brq || brk));
             boardClone[rank][file] = new King(new Position(rank, file), PieceType.KING, pieceColor, hasKingMoved);
             break;
           case 'b':
-            boardClone[rank][file] = new Bishop(new Position(rank, file), PieceType.KING, pieceColor);
+            boardClone[rank][file] = new Bishop(new Position(rank, file), PieceType.BISHOP, pieceColor);
             break;
           case 'q':
-            boardClone[rank][file] = new Queen(new Position(rank, file), PieceType.KING, pieceColor);
+            boardClone[rank][file] = new Queen(new Position(rank, file), PieceType.QUEEN, pieceColor);
             break;
           case 'n':
-            boardClone[rank][file] = new Knight(new Position(rank, file), PieceType.KING, pieceColor);
+            boardClone[rank][file] = new Knight(new Position(rank, file), PieceType.KNIGHT, pieceColor);
             break;
           default: break;
         }
