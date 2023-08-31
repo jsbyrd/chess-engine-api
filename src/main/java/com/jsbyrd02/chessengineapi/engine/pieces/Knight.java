@@ -22,6 +22,8 @@ public class Knight extends Piece {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
       Position newPosition = new Position(newRank, newFile);
+      System.out.println(newFile + ", " + newRank);
+      System.out.println("i: " + i);
       if (!Position.isLegalPosition(newPosition)) continue;
 
       // Check to see if there is a piece occupying that particular position
@@ -36,11 +38,12 @@ public class Knight extends Piece {
             moves.add(potentialMove);
           }
         }
-        break;
+        continue;
       }
       // If no piece occupies the new position, add this position as a valid move
       moves.add(potentialMove);
     }
+    System.out.println(moves.size());
     return moves;
   }
 
@@ -53,24 +56,20 @@ public class Knight extends Piece {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
       Position newPosition = new Position(newRank, newFile);
-      while (Position.isLegalPosition(newPosition)) {
-        // Check to see if there is a piece occupying that particular position
-        Piece pontentialPiece = board[newRank][newFile];
-        Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);
-        // Check to see if this move attacks another piece
-        if (pontentialPiece != null) {
-          // Make sure you aren't attacking your own pieces
-          if (!this.isSameColor(pontentialPiece)) {
-            moves.add(potentialMove);
-          }
-          break;
+      if (!Position.isLegalPosition(newPosition)) continue;
+      // Check to see if there is a piece occupying that particular position
+      Piece pontentialPiece = board[newRank][newFile];
+      Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);
+      // Check to see if this move attacks another piece
+      if (pontentialPiece != null) {
+        // Make sure you aren't attacking your own pieces
+        if (!this.isSameColor(pontentialPiece)) {
+          moves.add(potentialMove);
         }
-        // If no piece occupies the new position, add this position as a valid move
-        moves.add(potentialMove);
-        // Increment rank and file
-        newFile += fileIncrement[i];
-        newRank += rankIncrement[i];
+        continue;
       }
+      // If no piece occupies the new position, add this position as a valid move
+      moves.add(potentialMove);
     }
     return moves;
   }
