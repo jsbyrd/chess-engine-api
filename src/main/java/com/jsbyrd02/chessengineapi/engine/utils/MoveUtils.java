@@ -1,6 +1,7 @@
 package com.jsbyrd02.chessengineapi.engine.utils;
 
 import com.jsbyrd02.chessengineapi.engine.pieces.Piece;
+import com.jsbyrd02.chessengineapi.engine.pieces.Queen;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,18 @@ public class MoveUtils {
     int newRank = move.getNewPosition().getRank();
     int newFile = move.getNewPosition().getFile();
     Piece pieceCopy = boardClone[oldRank][oldFile];
+
+    // If it is a pawn promotion, auto-promote to Queen
+    PieceType pieceType = pieceCopy.getPieceType();
+    PieceColor pieceColor = pieceCopy.getPieceColor();
+    if (pieceType == PieceType.PAWN && newRank == 0 && pieceColor == PieceColor.WHITE) {
+      pieceCopy = new Queen(new Position(newRank, newFile), PieceType.QUEEN, pieceColor);
+    }
+    if (pieceType == PieceType.PAWN && newRank == 7 && pieceColor == PieceColor.BLACK) {
+      pieceCopy = new Queen(new Position(newRank, newFile), PieceType.QUEEN, pieceColor);
+    }
     boardClone[newRank][newFile] = pieceCopy;
+
     // Modify piece info
     pieceCopy.setPosition(new Position(newRank, newFile));
     PieceType type = pieceCopy.getPieceType();
