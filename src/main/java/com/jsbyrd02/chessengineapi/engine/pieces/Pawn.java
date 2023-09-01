@@ -66,7 +66,7 @@ public class Pawn extends Piece {
       for (int r = 0; r < board.length; r++) {
         for (int f = 0; f < board[r].length; f++) {
           Piece potentialPawn = board[r][f];
-          if (potentialPawn == null && potentialPawn.getPieceType() == PieceType.PAWN && potentialPawn.isEnPassant()) {
+          if (potentialPawn != null && potentialPawn.getPieceType() == PieceType.PAWN && potentialPawn.isEnPassant()) {
             enPassantVictim = potentialPawn;
             break;
           }

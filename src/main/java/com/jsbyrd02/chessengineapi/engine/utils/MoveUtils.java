@@ -5,6 +5,11 @@ import com.jsbyrd02.chessengineapi.engine.pieces.Piece;
 import java.util.ArrayList;
 
 public class MoveUtils {
+
+  public static void printMoveInfo(Move move) {
+    System.out.println("Piece: " + move.getPiece().getPieceType() + ", newPosition: (" + move.getNewPosition().getFile() +
+            ", " + move.getNewPosition().getRank() + ")");
+  }
   public static Piece[][] simulateMove(Piece[][] board, Move move) {
     Piece[][] boardClone = new Piece[8][8];
     // Copy over current board onto a new board
@@ -28,8 +33,6 @@ public class MoveUtils {
       pieceCopy.setHasMoved(true);
     }
 
-    // TODO: Add castling & en passant stuff
-    // TODO: Remove enPassant/isCastle fields from Move, do calculations in getter methods instead
     // If it is a castle move, also move the rook
     if (move.isCastleMove()) {
       int oldRookFile = (newFile == 2) ? 0 : 7;
@@ -56,8 +59,8 @@ public class MoveUtils {
   }
 
   public static ArrayList<Move> findAllMoves(Piece[][] board, PieceColor activeColor) {
-    if (board == null || board.length != 64) throw new RuntimeException("Invalid board passed in as a parameter");
-    ArrayList<Move> allAttackMoves = new ArrayList<>();
+    if (board == null) throw new RuntimeException("Invalid board passed in as a parameter");
+    ArrayList<Move> allMoves = new ArrayList<>();
     // Iterate through every "square" on the board
     for (int rank = 0; rank < board.length; rank++) {
       for (int file = 0; file < board[rank].length; file++) {
@@ -66,16 +69,16 @@ public class MoveUtils {
         if (piece != null && piece.getPieceColor() == activeColor) {
           ArrayList<Move> moves = piece.generateMoves(board);
           for (int i = 0; i < moves.size(); i++) {
-            allAttackMoves.add(moves.get(i));
+            allMoves.add(moves.get(i));
           }
         }
       }
     }
-    return allAttackMoves;
+    return allMoves;
   }
 
   public static ArrayList<Move> findAllAttackMoves(Piece[][] board, PieceColor activeColor) {
-    if (board == null || board.length != 64) throw new RuntimeException("Invalid board passed in as a parameter");
+    if (board == null) throw new RuntimeException("Invalid board passed in as a parameter");
     ArrayList<Move> allAttackMoves = new ArrayList<>();
     // Iterate through every "square" on the board
     for (int rank = 0; rank < board.length; rank++) {

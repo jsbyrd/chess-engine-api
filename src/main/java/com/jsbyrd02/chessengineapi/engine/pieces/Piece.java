@@ -33,7 +33,8 @@ public abstract class Piece {
   public void displayPieceInfo() {
     int rank = this.position.getRank();
     int file = this.position.getFile();
-    System.out.println("Position: (" + rank + ", " + file + "), PieceType: " + this.pieceType + ", PieceColor: " + this.pieceColor);
+    System.out.println("Position: (" + rank + ", " + file + "), PieceType: " + this.pieceType + ", PieceColor: " + this.pieceColor
+    + ", HasMoved: " + this.hasMoved + ", En Passant: " + this.enPassant);
   }
 
   public boolean isSameColor(Piece otherPiece) {

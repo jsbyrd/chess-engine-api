@@ -16,7 +16,7 @@ public class Position {
   public static boolean isLegalPosition(Position position) {
     int rank = position.rank;
     int file = position.file;
-    return (rank >= 0 && rank < 8 && file >= 0 && rank < 8);
+    return (rank >= 0 && rank < 8 && file >= 0 && file < 8);
   }
 
   public int getRank() {
