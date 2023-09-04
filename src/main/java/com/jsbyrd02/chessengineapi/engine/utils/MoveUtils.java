@@ -6,11 +6,6 @@ import com.jsbyrd02.chessengineapi.engine.pieces.Queen;
 import java.util.ArrayList;
 
 public class MoveUtils {
-
-  public static void printMoveInfo(Move move) {
-    System.out.println("Piece: " + move.getPiece().getPieceType() + ", newPosition: (" + move.getNewPosition().getFile() +
-            ", " + move.getNewPosition().getRank() + ")");
-  }
   public static Piece[][] simulateMove(Piece[][] board, Move move) {
     Piece[][] boardClone = new Piece[8][8];
     // Copy over current board onto a new board

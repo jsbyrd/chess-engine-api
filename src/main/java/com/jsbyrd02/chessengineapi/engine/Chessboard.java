@@ -43,7 +43,6 @@ public class Chessboard {
         info = info.concat(Character.toString(fenChars[endIndex]));
         endIndex++;
       }
-      // System.out.println(i + ": " + info);
       switch (i) {
         // Find active color
         case 0:

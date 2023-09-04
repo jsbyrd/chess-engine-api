@@ -21,11 +21,9 @@ public class Knight extends Piece {
     for (int i = 0; i < fileIncrement.length; i++) {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
-      Position newPosition = new Position(newRank, newFile);
-      System.out.println(newFile + ", " + newRank);
-      System.out.println("i: " + i);
-      if (!Position.isLegalPosition(newPosition)) continue;
+      if (!Position.isLegalPosition(newRank, newFile)) continue;
 
+      Position newPosition = new Position(newRank, newFile);
       // Check to see if there is a piece occupying that particular position
       Piece pontentialPiece = board[newRank][newFile];
       Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);
@@ -43,7 +41,6 @@ public class Knight extends Piece {
       // If no piece occupies the new position, add this position as a valid move
       moves.add(potentialMove);
     }
-    System.out.println(moves.size());
     return moves;
   }
 
@@ -55,8 +52,9 @@ public class Knight extends Piece {
     for (int i = 0; i < fileIncrement.length; i++) {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
+      if (!Position.isLegalPosition(newRank, newFile)) continue;
+
       Position newPosition = new Position(newRank, newFile);
-      if (!Position.isLegalPosition(newPosition)) continue;
       // Check to see if there is a piece occupying that particular position
       Piece pontentialPiece = board[newRank][newFile];
       Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);

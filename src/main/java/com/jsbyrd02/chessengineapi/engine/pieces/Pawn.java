@@ -40,7 +40,7 @@ public class Pawn extends Piece {
       // Check for capture on file = file - 1 (Left from white's perspective)
       if (file > 0 && file < 8) {
         Piece potentialVictim = board[rank + moveIncrement][file - 1];
-        if (potentialVictim != null && this.isSameColor(potentialVictim)) {
+        if (potentialVictim != null && !this.isSameColor(potentialVictim)) {
           Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file), false, false);
           Piece[][] simulatedBoard = MoveUtils.simulateMove(board, potentialMove);
           if (!MoveUtils.isKingInCheck(simulatedBoard, this.getPieceColor())) {
@@ -52,7 +52,7 @@ public class Pawn extends Piece {
       // Check for capture on file = file + 1 (Right from white's perspective)
       if (file >= 0 && file < 7) {
         Piece potentialVictim = board[rank + moveIncrement][file + 1];
-        if (potentialVictim != null && this.isSameColor(potentialVictim)) {
+        if (potentialVictim != null && !this.isSameColor(potentialVictim)) {
           Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file), false, false);
           Piece[][] simulatedBoard = MoveUtils.simulateMove(board, potentialMove);
           if (!MoveUtils.isKingInCheck(simulatedBoard, this.getPieceColor())) {
@@ -94,10 +94,7 @@ public class Pawn extends Piece {
           }
         }
       }
-
     }
-
-
     return moves;
   }
 
@@ -111,24 +108,18 @@ public class Pawn extends Piece {
       // Check for capture on file = file - 1 (Left from white's perspective)
       if (file > 0 && file < 8) {
         Piece potentialVictim = board[rank + moveIncrement][file - 1];
-        if (potentialVictim != null && this.isSameColor(potentialVictim)) {
+        if (potentialVictim != null && !this.isSameColor(potentialVictim)) {
           Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file), false, false);
-          Piece[][] simulatedBoard = MoveUtils.simulateMove(board, potentialMove);
-          if (!MoveUtils.isKingInCheck(simulatedBoard, this.getPieceColor())) {
-            moves.add(potentialMove);
-          }
+          moves.add(potentialMove);
         }
       }
 
       // Check for capture on file = file + 1 (Right from white's perspective)
       if (file >= 0 && file < 7) {
         Piece potentialVictim = board[rank + moveIncrement][file + 1];
-        if (potentialVictim != null && this.isSameColor(potentialVictim)) {
+        if (potentialVictim != null && !this.isSameColor(potentialVictim)) {
           Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file), false, false);
-          Piece[][] simulatedBoard = MoveUtils.simulateMove(board, potentialMove);
-          if (!MoveUtils.isKingInCheck(simulatedBoard, this.getPieceColor())) {
-            moves.add(potentialMove);
-          }
+          moves.add(potentialMove);
         }
       }
     }

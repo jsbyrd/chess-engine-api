@@ -17,6 +17,12 @@ public class Move {
     this.isEnPassant = isEnPassant;
   }
 
+  public void printMoveInfo() {
+    System.out.println("Piece: " + this.getPiece().getPieceType()
+            + ", oldPosition: (" + this.getOldPosition().getFile() + ", " + this.getOldPosition().getRank() + ")"
+            + ", newPosition: (" + this.getNewPosition().getFile() + ", " + this.getNewPosition().getRank() + ")");
+  }
+
   public Piece getPiece() {
     return piece;
   }

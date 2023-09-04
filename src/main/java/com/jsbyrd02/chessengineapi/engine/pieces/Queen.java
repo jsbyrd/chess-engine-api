@@ -12,7 +12,6 @@ public class Queen extends Piece {
   public Queen(Position position, PieceType pieceType, PieceColor pieceColor) {
     super(position, pieceType, pieceColor);
   }
-
   public ArrayList<Move> generateMoves(Piece[][] board) {
     ArrayList<Move> moves = new ArrayList<>();
     int[] fileIncrement = {1, 1, -1, -1, 1, -1, 0, 0};
@@ -21,8 +20,9 @@ public class Queen extends Piece {
     for (int i = 0; i < fileIncrement.length; i++) {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
-      Position newPosition = new Position(newRank, newFile);
-      while (Position.isLegalPosition(newPosition)) {
+
+      while (Position.isLegalPosition(newRank, newFile)) {
+        Position newPosition = new Position(newRank, newFile);
         // Check to see if there is a piece occupying that particular position
         Piece pontentialPiece = board[newRank][newFile];
         Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);
@@ -55,8 +55,9 @@ public class Queen extends Piece {
     for (int i = 0; i < fileIncrement.length; i++) {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
-      Position newPosition = new Position(newRank, newFile);
-      while (Position.isLegalPosition(newPosition)) {
+
+      while (Position.isLegalPosition(newRank, newFile)) {
+        Position newPosition = new Position(newRank, newFile);
         // Check to see if there is a piece occupying that particular position
         Piece pontentialPiece = board[newRank][newFile];
         Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);

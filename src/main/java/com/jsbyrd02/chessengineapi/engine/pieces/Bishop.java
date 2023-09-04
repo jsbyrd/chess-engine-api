@@ -21,8 +21,9 @@ public class Bishop extends Piece {
     for (int i = 0; i < fileIncrement.length; i++) {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
-      Position newPosition = new Position(newRank, newFile);
-      while (Position.isLegalPosition(newPosition)) {
+
+      while (Position.isLegalPosition(newRank, newFile)) {
+        Position newPosition = new Position(newRank, newFile);
         // Check to see if there is a piece occupying that particular position
         Piece pontentialPiece = board[newRank][newFile];
         Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);
@@ -55,8 +56,9 @@ public class Bishop extends Piece {
     for (int i = 0; i < fileIncrement.length; i++) {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
       int newRank = this.getPosition().getRank() + rankIncrement[i];
-      Position newPosition = new Position(newRank, newFile);
-      while (Position.isLegalPosition(newPosition)) {
+
+      while (Position.isLegalPosition(newRank, newFile)) {
+        Position newPosition = new Position(newRank, newFile);
         // Check to see if there is a piece occupying that particular position
         Piece pontentialPiece = board[newRank][newFile];
         Move potentialMove = new Move(this, this.getPosition(), newPosition, false, false);
