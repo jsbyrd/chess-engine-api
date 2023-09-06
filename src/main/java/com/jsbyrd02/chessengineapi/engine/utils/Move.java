@@ -19,6 +19,7 @@ public class Move {
 
   public void printMoveInfo() {
     System.out.println("Piece: " + this.getPiece().getPieceType()
+            + ", color: " + this.getPiece().getPieceColor()
             + ", oldPosition: (" + this.getOldPosition().getFile() + ", " + this.getOldPosition().getRank() + ")"
             + ", newPosition: (" + this.getNewPosition().getFile() + ", " + this.getNewPosition().getRank() + ")");
   }

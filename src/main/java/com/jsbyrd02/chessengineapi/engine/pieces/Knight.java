@@ -39,7 +39,9 @@ public class Knight extends Piece {
         continue;
       }
       // If no piece occupies the new position, add this position as a valid move
-      moves.add(potentialMove);
+      if (!this.isPinned(board, potentialMove)) {
+        moves.add(potentialMove);
+      }
     }
     return moves;
   }

@@ -3,6 +3,7 @@ package com.jsbyrd02.chessengineapi;
 import com.jsbyrd02.chessengineapi.engine.Chessboard;
 import com.jsbyrd02.chessengineapi.engine.pieces.Piece;
 import com.jsbyrd02.chessengineapi.engine.utils.Evaluation;
+import com.jsbyrd02.chessengineapi.engine.utils.MiniMax;
 import com.jsbyrd02.chessengineapi.engine.utils.Move;
 import com.jsbyrd02.chessengineapi.engine.utils.MoveUtils;
 
@@ -10,15 +11,14 @@ import java.util.ArrayList;
 
 public class Test {
   public static void main(String[] args) {
-//    String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    String fen = "r1bqkbnr/ppp2ppp/2np4/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1";
+    String fen = "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2";
     Chessboard chessboard = new Chessboard(fen);
 
-    double score = Evaluation.evaluatePosition(chessboard.getBoard());
-
     ArrayList<Move> moves = MoveUtils.findAllMoves(chessboard.getBoard(), chessboard.getActiveColor());
-    System.out.println("Num Moves: " + moves.size());
-    System.out.println("Evaluation: " + score);
+
+    MiniMax miniMax = new MiniMax();
+    Move bestMove = miniMax.execute(chessboard, 5);
+    bestMove.printMoveInfo();
   }
   public static void printChessboardInfo(Chessboard chessboard) {
     System.out.println("Active color: " + chessboard.getActiveColor());

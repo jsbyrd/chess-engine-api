@@ -39,7 +39,9 @@ public class Bishop extends Piece {
           break;
         }
         // If no piece occupies the new position, add this position as a valid move
-        moves.add(potentialMove);
+        if (!this.isPinned(board, potentialMove)) {
+          moves.add(potentialMove);
+        }
         // Increment rank and file
         newFile += fileIncrement[i];
         newRank += rankIncrement[i];

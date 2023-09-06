@@ -1,5 +1,7 @@
 package com.jsbyrd02.chessengineapi.engine.utils;
 
+import com.jsbyrd02.chessengineapi.engine.Chessboard;
+import com.jsbyrd02.chessengineapi.engine.pieces.King;
 import com.jsbyrd02.chessengineapi.engine.pieces.Piece;
 import com.jsbyrd02.chessengineapi.engine.pieces.Queen;
 
@@ -20,7 +22,8 @@ public class MoveUtils {
     int oldFile = move.getOldPosition().getFile();
     int newRank = move.getNewPosition().getRank();
     int newFile = move.getNewPosition().getFile();
-    Piece pieceCopy = boardClone[oldRank][oldFile];
+    Piece pieceCopy = boardClone[oldRank][oldFile].deepCopy();
+    boardClone[oldRank][oldFile] = null;
 
     // If it is a pawn promotion, auto-promote to Queen
     PieceType pieceType = pieceCopy.getPieceType();
@@ -57,6 +60,7 @@ public class MoveUtils {
 
     // If it is en passant, also remove the captured pawn
     if (move.isEnPassant()) {
+      System.out.println("En Passant Move!");
       int enPassantRank = oldRank;
       int enPassantFile = newFile;
       boardClone[enPassantRank][enPassantFile] = null;
@@ -72,12 +76,10 @@ public class MoveUtils {
     for (int rank = 0; rank < board.length; rank++) {
       for (int file = 0; file < board[rank].length; file++) {
         Piece piece = board[rank][file];
-        // If a piece occupies that rank and file, generate all attack moves and add it to allAttackMoves
+        // If a piece occupies that rank and file, generate all moves and add it to allMoves
         if (piece != null && piece.getPieceColor() == activeColor) {
           ArrayList<Move> moves = piece.generateMoves(board);
-          for (int i = 0; i < moves.size(); i++) {
-            allMoves.add(moves.get(i));
-          }
+          allMoves.addAll(moves);
         }
       }
     }
@@ -108,22 +110,16 @@ public class MoveUtils {
     ArrayList<Move> allOpponentAttackMoves = MoveUtils.findAllAttackMoves(board, opponentColor);
 
     if (allOpponentAttackMoves.size() == 0) {
-      throw new RuntimeException("allOpponentAttackMoves is no good");
+      return false;
     }
 
     // Find current player's King
-    Piece king = null;
-    for (int rank = 0; rank < board.length; rank++) {
-      for (int file = 0; file < board[rank].length; file++) {
-        Piece potentialPiece = board[rank][file];
-        if (potentialPiece != null && potentialPiece.getPieceType() == PieceType.KING) {
-          king = potentialPiece;
-        }
-      }
-    }
+    Piece king = findKing(board, pieceColor);
 
     // Throw error if you couldn't find the king
-    if (king == null) throw new RuntimeException("Couldn't find the king");
+    if (king == null) {
+      return false;
+    }
 
     // Check to see if the king's current position corresponds to a potential attack move from the other color
     boolean isKingAttacked = false;
@@ -137,4 +133,17 @@ public class MoveUtils {
     return isKingAttacked;
   }
 
+  public static Piece findKing(Piece[][] board, PieceColor pieceColor) {
+    // Find current player's King
+    Piece king = null;
+    for (int rank = 0; rank < board.length; rank++) {
+      for (int file = 0; file < board[rank].length; file++) {
+        Piece potentialPiece = board[rank][file];
+        if (potentialPiece != null && potentialPiece.getPieceType() == PieceType.KING && potentialPiece.getPieceColor() == pieceColor) {
+          king = potentialPiece;
+        }
+      }
+    }
+    return king;
+  }
 }

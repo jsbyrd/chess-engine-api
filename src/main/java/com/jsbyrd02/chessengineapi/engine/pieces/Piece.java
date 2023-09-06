@@ -1,5 +1,6 @@
 package com.jsbyrd02.chessengineapi.engine.pieces;
 
+import com.jsbyrd02.chessengineapi.engine.Chessboard;
 import com.jsbyrd02.chessengineapi.engine.utils.*;
 
 import java.util.ArrayList;

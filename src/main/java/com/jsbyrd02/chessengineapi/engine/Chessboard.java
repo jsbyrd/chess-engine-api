@@ -1,9 +1,10 @@
 package com.jsbyrd02.chessengineapi.engine;
 
 import com.jsbyrd02.chessengineapi.engine.pieces.*;
-import com.jsbyrd02.chessengineapi.engine.utils.PieceColor;
-import com.jsbyrd02.chessengineapi.engine.utils.PieceType;
-import com.jsbyrd02.chessengineapi.engine.utils.Position;
+import com.jsbyrd02.chessengineapi.engine.utils.*;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Chessboard {
   private Piece[][] board;
@@ -12,6 +13,10 @@ public class Chessboard {
   private int enPassantRank, enPassantFile;
   private int halfMoveClock;
   private int fullMoveCount;
+  public static final int oo = Integer.MAX_VALUE;
+  public static final int negative_oo = Integer.MIN_VALUE;
+  public static final int NUM_RANKS = 8;
+  public static final int NUM_FILES = 8;
 
   public Chessboard() {
 
@@ -47,7 +52,7 @@ public class Chessboard {
         // Find active color
         case 0:
           PieceColor color = (info.charAt(0) == 'w') ? PieceColor.WHITE : PieceColor.BLACK;
-          this.setActiveColor(color);
+          setActiveColor(color);
           break;
         // Find castling rights
         case 1:
@@ -138,8 +143,32 @@ public class Chessboard {
         file++;
       }
     }
-    this.setBoard(boardClone);
+    setBoard(boardClone);
   }
+
+  public static void displayBoard(Piece[][] board) {
+    for (int rank = 0; rank < NUM_RANKS; rank++) {
+      for (int file = 0; file < NUM_FILES; file++) {
+        Piece potentialPiece = board[rank][file];
+        if (potentialPiece != null) {
+          String piece;
+          PieceType pieceType = potentialPiece.getPieceType();
+          if (pieceType == PieceType.BISHOP) piece = "b";
+          else if (pieceType == PieceType.KING) piece = "k";
+          else if (pieceType == PieceType.KNIGHT) piece = "n";
+          else if (pieceType == PieceType.PAWN) piece = "p";
+          else if (pieceType == PieceType.QUEEN) piece = "q";
+          else piece = "r";
+          if (potentialPiece.getPieceColor() == PieceColor.WHITE) piece = piece.toUpperCase();
+          System.out.print(piece);
+        } else {
+          System.out.print("-");
+        }
+      }
+      System.out.println();
+    }
+  }
+
 
   public boolean isBrq() {
     return brq;

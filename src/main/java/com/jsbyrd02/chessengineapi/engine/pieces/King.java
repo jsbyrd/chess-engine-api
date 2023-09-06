@@ -31,7 +31,8 @@ public class King extends Piece {
         // Make sure you aren't attacking your own pieces
         if (!this.isSameColor(pontentialPiece)) {
           // Make sure the king isn't walking into an attack
-          if (!this.isPinned(board, potentialMove)) {
+          Piece[][] simulatedBoardState = MoveUtils.simulateMove(board, potentialMove);
+          if (!MoveUtils.isKingInCheck(simulatedBoardState, this.getPieceColor())) {
             moves.add(potentialMove);
           }
         }
@@ -39,7 +40,8 @@ public class King extends Piece {
       }
       // If no piece occupies the new position, add this position as a valid move so long as it isn't walking
       // into an attack
-      if (!this.isPinned(board, potentialMove)) {
+      Piece[][] simulatedBoardState = MoveUtils.simulateMove(board, potentialMove);
+      if (!MoveUtils.isKingInCheck(simulatedBoardState, this.getPieceColor())) {
         moves.add(potentialMove);
       }
     }
