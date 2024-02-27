@@ -19,7 +19,6 @@ public class Pawn extends Piece {
     int file = this.getPosition().getFile();
 
     if (rank > 0 && rank < 7) {
-      // Move forward 1 space so long as no piece is in front & king isn't in check
       if (board[rank + moveIncrement][file] == null) {
         Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file), false, false);
         Piece[][] simulatedBoard = MoveUtils.simulateMove(board, potentialMove);
@@ -41,7 +40,7 @@ public class Pawn extends Piece {
       if (file > 0 && file < 8) {
         Piece potentialVictim = board[rank + moveIncrement][file - 1];
         if (potentialVictim != null && !this.isSameColor(potentialVictim)) {
-          Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file), false, false);
+          Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file - 1), false, false);
           Piece[][] simulatedBoard = MoveUtils.simulateMove(board, potentialMove);
           if (!MoveUtils.isKingInCheck(simulatedBoard, this.getPieceColor())) {
             moves.add(potentialMove);
@@ -53,7 +52,7 @@ public class Pawn extends Piece {
       if (file >= 0 && file < 7) {
         Piece potentialVictim = board[rank + moveIncrement][file + 1];
         if (potentialVictim != null && !this.isSameColor(potentialVictim)) {
-          Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file), false, false);
+          Move potentialMove = new Move(this, this.getPosition(), new Position(rank + moveIncrement, file + 1), false, false);
           Piece[][] simulatedBoard = MoveUtils.simulateMove(board, potentialMove);
           if (!MoveUtils.isKingInCheck(simulatedBoard, this.getPieceColor())) {
             moves.add(potentialMove);

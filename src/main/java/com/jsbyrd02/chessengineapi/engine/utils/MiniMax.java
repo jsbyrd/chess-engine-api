@@ -32,7 +32,7 @@ public class MiniMax {
     }
 
     long executionTime = System.currentTimeMillis() - startTime;
-    System.out.println("Execution time: " + executionTime);
+    System.out.println("Execution time: " + executionTime + "ms");
 
     return bestMove;
   }

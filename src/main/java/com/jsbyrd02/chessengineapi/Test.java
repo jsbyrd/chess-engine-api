@@ -11,14 +11,15 @@ import java.util.ArrayList;
 
 public class Test {
   public static void main(String[] args) {
-    String fen = "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2";
+    String fen = "5Kbk/6pp/6P1/8/8/8/7R/8 w - - 0 1";
     Chessboard chessboard = new Chessboard(fen);
 
     ArrayList<Move> moves = MoveUtils.findAllMoves(chessboard.getBoard(), chessboard.getActiveColor());
 
     MiniMax miniMax = new MiniMax();
-    Move bestMove = miniMax.execute(chessboard, 5);
+    Move bestMove = miniMax.execute(chessboard, 7);
     bestMove.printMoveInfo();
+    Chessboard.displayBoard(chessboard.getBoard());
   }
   public static void printChessboardInfo(Chessboard chessboard) {
     System.out.println("Active color: " + chessboard.getActiveColor());

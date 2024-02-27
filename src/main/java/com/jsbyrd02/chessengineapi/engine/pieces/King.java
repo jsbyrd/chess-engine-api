@@ -105,8 +105,8 @@ public class King extends Piece {
 
   public ArrayList<Move> generateAttackMoves(Piece[][] board) {
     ArrayList<Move> moves = new ArrayList<>();
-    int[] fileIncrement = {1, 2, 2, 1, -1, -2, -2, -1};
-    int[] rankIncrement = {2, 1, -1, -2, -2, -1, 1, 2};
+    int[] fileIncrement = {0, 1, 1, 1, 0, -1, -1, -1};
+    int[] rankIncrement = {1, 1, 0, -1, -1, -1, 0, 1};
 
     for (int i = 0; i < fileIncrement.length; i++) {
       int newFile = this.getPosition().getFile() + fileIncrement[i];
